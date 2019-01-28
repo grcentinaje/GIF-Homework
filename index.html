@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="reset.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>GIFTastic</title>
+</head>
+
+<body>
+
+    <div id="container">
+
+        <div id="titleBlock">
+
+            <!-- Site Name -->
+            <h1>GIFTastic</h1>
+
+            <!-- Search Box -->
+            
+            <div id="search">
+
+                <label for="searchBox" id="label">Add a food item.</label>
+                <form id="searchBox">
+                    <input type="text" id="searchInput">
+                    <input id="submitButton" type="submit" value="Add Item" class="btn btn-warning">
+                </form>
+
+            </div>
+
+        </div>
+
+        <div id="bodycontainer" class="allContainers">
+
+            <div id="gifContainer" class="allContainers"></div>
+
+            <div id="buttonContainer" class="allContainers"></div>
+
+        </div>
+    </div>
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        var food = ["pizza", "hot dogs", "fries", "hamburgers", "tacos", "cookies", "pasta", "cake", "candy", "chicken wings", "dim sum", "sushi"];
+
+
+        $(document).ready(function () {
+
+            
+            //************** FORMATTING BUTTONS ARRAY ******************
+
+            function button() {
+
+
+                $("#buttonContainer").empty();
+
+                for (var i = 0; i < food.length; i++) {
+
+                    var y = $("<button>");
+                    y.addClass("foodBtn" + " " + "btn btn-warning");
+                    // y.attr("data-input", $(this).attr("data-name"));
+                    y.attr("data-name", food[i]);
+                    y.text(food[i]);
+                    $("#buttonContainer").append(y);
+                };
+
+                $(".foodBtn").on("click", function (event) {
+                    display($(this).data('name'));
+                });
+
+            };
+
+            button();
+
+            // ****************** APPENDING USER BUTTONS *********************
+            
+            $("#submitButton").on("click", function (event) {
+
+                var foodInput = $("#searchInput").val().trim();
+
+                event.preventDefault();
+
+                food.push(foodInput);
+
+                button();
+
+            });
+
+            //***************** DISPLAYING THE GIF *****************
+
+            function display(foodSearch) {
+
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + foodSearch + "&api_key=Y4yI7znUVdlxHzDwZxSqzvOEHzvzHImx&limit=10";
+
+                $.ajax({
+                    url: queryURL,
+                    method: 'GET'
+                }).then(function (response) {
+
+                    var results = response.data;
+              
+                    for (var i = 0; i < results.length; i++) {
+
+                        var gifDiv = $("<div>");
+                        var info = $("<p>" + "<strong>Title: </strong>" + response.data[i].title + "<br>" + "<strong>Slug: </strong>" + response.data[i].slug + "</p>");
+                        var gif = $("<img>");
+                        
+                        gif.attr("src", response.data[i].images.downsized_still.url);
+                        gif.attr("data-still", response.data[i].images.downsized_still.url);
+                        gif.attr("data-animate", response.data[i].images.downsized.url);
+                        gif.attr("data-state", "still");
+                        gif.addClass("gifImg");
+
+                        gifDiv.append(gif);
+                        gifDiv.append(info);
+                        
+                        $("#gifContainer").prepend(gifDiv);
+
+                        console.log(response);
+
+                        $('.gifImg').on('click', function () {
+
+                            var state = $(this).attr('data-state');
+
+                            if (state === 'still') {
+
+                                $(this).attr('src', $(this).attr('data-animate'));
+                                $(this).attr('data-state', 'animate');
+                                console.log("it works!");
+
+                            } else {
+
+                                $(this).attr('src', $(this).attr('data-still'));
+                                $(this).attr('data-state', 'still');
+                                
+                            }
+
+
+                        });
+
+                    };
+                });
+            };
+
+
+
+            
+
+
+
+
+
+        });
+    </script>
+</body>
+
+</html>

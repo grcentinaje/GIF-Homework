@@ -1,0 +1,73 @@
+body{
+    background-image: url("assets/images/food.png");
+}
+
+#container{
+    width: 1200px;
+    height: 800px;
+    margin: auto;
+    /* background-image: url("assets/images/food.png"); */
+}
+
+#titleBlock {
+    position: relative;
+    background-color: rgb(173, 26, 0);
+    padding: 30px;
+}
+
+h1 {
+
+    position: left;
+    color: white;
+}
+
+#search{
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    width: 350px;
+}
+
+#label{
+    color: white;
+}
+
+#bodycontainer{
+    position: relative;
+}
+
+#gifContainer{
+    width: 57%;
+    position: absolute;
+    margin: auto;
+    padding-left: 8%;
+    padding-top: 5px;
+    
+}
+
+#buttonContainer{
+    width: 40%;
+    position: absolute;
+    right: 0;
+    background-color: rgb(173, 26, 0);
+    padding: 23px 0px 0px 23px;
+}
+
+.allContainers{
+    margin: 10px;
+    height: 500px;
+}
+
+button{
+    margin: 2.5px;
+    width: 30%;
+}
+
+.btn-warning{
+    color: rgb(173, 26, 0);
+    background-color: rgb(252, 211, 99);
+}
+
+#submitButton{
+    margin-left: 10px;
+}
